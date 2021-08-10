@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.louie.oauth.mapper.IdsClientDetailMapper">
+
+    <insert id="add" parameterType="com.fujieid.jap.ids.model.ClientDetail" >
+        insert into client_detail
+        values (#{id}, #{appName}, #{clientId}, #{clientSecret}, #{siteDomain}, #{redirectUri}, #{logoutRedirectUri},
+                #{logo}, #{available}, #{description}, #{scopes}, #{grantTypes}, #{responseTypes}, #{codeExpiresIn},
+                #{idTokenExpiresIn}, #{accessTokenExpiresIn}, #{refreshTokenExpiresIn}, #{autoApprove}, #{enablePkce}, #{codeChallengeMethod});
+    </insert>
+
+    <update id="update" parameterType="com.fujieid.jap.ids.model.ClientDetail">
+        update client_detail
+        <set>
+            <if test="appName != null">app_name=#{appName},</if>
+            <if test="siteDomain != null">site_domain=#{siteDomain},</if>
+            <if test="redirectUri != null">redirect_uri=#{redirectUri},</if>
+            <if test="logoutRedirectUri != null">logout_redirect_uri=#{logoutRedirectUri},</if>
+            <if test="logo != null">logo=#{logo},</if>
+            <if test="available != null">available=#{available},</if>
+            <if test="description != null">description=#{description},</if>
+            <if test="scopes != null">scopes=#{scopes},</if>
+            <if test="grantTypes != null">grant_types=#{grantTypes},</if>
+            <if test="responseTypes != null">response_types=#{responseTypes},</if>
+            <if test="autoApprove != null">auto_approve=#{autoApprove},</if>
+            <if test="enablePkce != null">enable_pkce=#{enablePkce}</if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <delete id="removeById" parameterType="string">
+        delete from client_detail where id=#{id}
+    </delete>
+
+    <delete id="removeByClientId" parameterType="string">
+        delete from client_detail where client_id=#{clientId}
+    </delete>
+
+    <select id="getByClientId" resultMap="ClientResult">
+        select * from client_detail where client_id=#{clientId}
+    </select>
+
+    <select id="getAllClientDetail" resultMap="ClientResult">
+        select * from client_detail
+    </select>
+
+    <resultMap id="ClientResult" type="com.fujieid.jap.ids.model.ClientDetail">
+        <result property="appName" column="app_name"/>
+        <result property="clientId" column="client_id"/>
+        <result property="clientSecret" column="client_secret"/>
+        <result property="siteDomain" column="site_domain"/>
+        <result property="redirectUri" column="redirect_uri"/>
+        <result property="logoutRedirectUri" column="logout_redirect_uri"/>
+        <result property="grantTypes" column="grant_types"/>
+        <result property="responseTypes" column="response_types"/>
+        <result property="codeExpiresIn" column="code_expires_in"/>
+        <result property="idTokenExpiresIn" column="id_token_expires_in"/>
+        <result property="accessTokenExpiresIn" column="access_token_expires_in"/>
+        <result property="refreshTokenExpiresIn" column="refresh_token_expires_in"/>
+        <result property="autoApprove" column="auto_approve"/>
+        <result property="enablePkce" column="enable_pkce"/>
+        <result property="codeChallengeMethod" column="code_challenge_method"/>
+    </resultMap>
+
+</mapper>

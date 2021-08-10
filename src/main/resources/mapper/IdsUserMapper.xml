@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.louie.oauth.mapper.IdsUserMapper">
+
+    <select id="getById" resultType="com.fujieid.jap.ids.model.UserInfo">
+        select * from user_info where id=#{userId};
+    </select>
+
+    <select id="getByName" resultType="com.fujieid.jap.ids.model.UserInfo">
+        select * from user_info
+        where username=#{username};
+    </select>
+
+    <select id="getByNameAndPwd" resultType="com.fujieid.jap.ids.model.UserInfo">
+        select * from user_info
+        where username=#{username} and password=#{password};
+    </select>
+</mapper>
