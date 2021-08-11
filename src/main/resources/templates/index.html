@@ -1,10 +1,81 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Index</title>
 </head>
 <body>
-
+<h3>API</h3>
+<fieldset id="callbackParam" disabled>
+    <legend>回调参数</legend>
+    <table>
+        <tr>
+            <td>code: <input id="codeSpan" type="text"></td>
+            <td>state: <input id="stateSpan" type="text"></td>
+            <td>accessToken: <input id="accessTokenSpan" type="text"></td>
+            <td>expiresIn: <input id="expiresInSpan" type="text"></td>
+            <td>tokenType: <input id="tokenTypeSpan" type="text"></td>
+            <td>scope: <input id="scopeSpan" type="text"></td>
+            <td>idToken: <input id="idTokenSpan" type="text"></td>
+        </tr>
+    </table>
+</fieldset>
+<fieldset>
+    <legend>通用方法</legend>
+    <ur>
+        <li>
+            <input type="button" id="envTest_btn" value="环境测试">
+        </li>
+        <br>
+        <li>
+            <input type="button" id="logoutToken_btn" value="退出登录">
+        </li>
+    </ur>
+</fieldset>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script>
+    var baseUrl = "http://localhost:8888";
+
+    function getQueryParams(paramName) {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i = 0; i < vars.length; i++) {
+            var param = vars[i].split("=");
+            if (param[0] === paramName) {
+                return param[1];
+            }
+        }
+        return null;
+    }
+
+    $(function () {
+        var code = getQueryParams("code");
+        var callbackState = getQueryParams("state");
+        $("#codeSpan").val(code);
+        $("#stateSpan").val(callbackState);
+        $("#accessTokenSpan").val(getQueryParams("access_token"));
+        $("#expiresInSpan").val(getQueryParams("expires_in"));
+        $("#tokenTypeSpan").val(getQueryParams("token_type"));
+        $("#scopeSpan").val(getQueryParams("scope"));
+        $("#idTokenSpan").val(getQueryParams("id_token"));
+    })
+
+    /**
+     * 环境测试
+     */
+    $("#envTest_btn").click(function () {
+        window.open(baseUrl + "/oauth/authorize?client_id=zehtufcp4v3zs8nzs2ldp7hkd22y00t9&response_type=code" +
+            "&redirect_uri=http://localhost:8888&scope=read write openid profile email phone address&state=12345")
+    })
+
+    /**
+     * 退出登录
+     */
+    $("#logoutToken_btn").click(function () {
+        window.open(baseUrl + "/oauth/logout")
+    })
+</script>
 </html>

@@ -8,7 +8,7 @@
         <version>2.4.3</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.louie</groupId>
+    <groupId>com.fujieid</groupId>
     <artifactId>oauth-service</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>oauth-service</name>
@@ -90,7 +90,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.louie.oauth.OauthServiceApplication</mainClass>
+                    <mainClass>com.fujieid.oauth.OauthServiceApplication</mainClass>
                     <includeSystemScope>true</includeSystemScope>
                     <excludes>
                         <exclude>
