@@ -63,6 +63,10 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
         );
     }
 
+    /**
+     * token过滤器
+     * @return 过滤器
+     */
     @Bean
     public FilterRegistrationBean<IdsAccessTokenFilter> registerAccessTokenFilter() {
         FilterRegistrationBean<IdsAccessTokenFilter> registration = new FilterRegistrationBean<>();
@@ -92,6 +96,10 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
         return registration;
     }
 
+    /**
+     * 用户身份过滤器
+     * @return 过滤器
+     */
     @Bean
     public FilterRegistrationBean<IdsUserStatusFilter> registerUserStatusFilter() {
         FilterRegistrationBean<IdsUserStatusFilter> registration = new FilterRegistrationBean<>();

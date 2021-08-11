@@ -26,6 +26,7 @@ public class JapIdsConstUtil implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        //bean完成容器注入后进行
         ISSUER = oauthServiceProperties.getIssuer();
         HOST = oauthServiceProperties.getHost();
 

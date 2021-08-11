@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
+ * 客户端信息crud
  * @author lapati5
  * @date 2021/8/4
  */

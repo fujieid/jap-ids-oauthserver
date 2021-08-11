@@ -6,9 +6,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
 
 /**
+ * 使用Redis作为缓存
  * @author lapati5
  * @date 2021/8/5
  */
