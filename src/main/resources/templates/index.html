@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>测试页面</title>
 </head>
 <body>
 <h3>API</h3>
@@ -26,10 +26,14 @@
         <li>
             <input type="button" id="envTest_btn" value="环境测试">
         </li>
+        <li>
+            <input type="button" id="token_btn" value="获取token">
+        </li>
         <br>
         <li>
             <input type="button" id="logoutToken_btn" value="退出登录">
         </li>
+
     </ur>
 </fieldset>
 </body>
@@ -67,6 +71,11 @@
      * 环境测试
      */
     $("#envTest_btn").click(function () {
+        window.open(baseUrl + "/oauth/authorize?client_id=zehtufcp4v3zs8nzs2ldp7hkd22y00t9&response_type=code" +
+            "&redirect_uri=http://localhost:8888&scope=read write openid profile email phone address&state=12345")
+    })
+
+    $("#token_btn").click(function () {
         window.open(baseUrl + "/oauth/authorize?client_id=zehtufcp4v3zs8nzs2ldp7hkd22y00t9&response_type=code" +
             "&redirect_uri=http://localhost:8888&scope=read write openid profile email phone address&state=12345")
     })

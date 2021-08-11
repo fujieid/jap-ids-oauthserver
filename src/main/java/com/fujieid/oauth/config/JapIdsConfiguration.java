@@ -112,6 +112,7 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
                         "/oauth/registration," +
                         "/oauth/pkce/**," +
                         "/oauth/client/**," +
+                        "/oauth/userinfo," +
                         "/.well-known/jwks.json," +
                         "/.well-known/openid-configuration"
         );

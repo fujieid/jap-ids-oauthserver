@@ -24,14 +24,13 @@ spring:
 
 # mybatis配置
 mybatis:
-  type-aliases-package: com.fujieid.oauth.entity
   mapper-locations: classpath:mapper/**/*.xml
 # LOG
 logging:
   level:
     root: info
 # oauth2.0服务配置
-#ids:
-#  oauth2:
-#    enable-redis-cache: true
+ids:
+  oauth2:
+    enable-redis-cache: false
 

@@ -1,10 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html style="margin-right: 0px" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Confirm</title>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <meta content="JustAuthPlus 演示自定义授权页" name="keywords"/>
+    <meta content="JustAuthPlus 演示自定义授权页" name="description"/>
+    <title>JustAuthPlus 演示自定义授权页</title>
 </head>
 <body>
-
+<div id="app">
+    <div aria-labelledby="modalSignupVerticalTitle" aria-modal="true" role="dialog" tabindex="-1"
+         class="modal fade show portal-container">
+        <div role="document" class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+                <div class="card">
+                    <p class="card-header">
+                    <h1>这是自定义的授权确认页面</h1>
+                    </p>
+                    <div class="card-body confirm-box">
+                        <div class="d-block text-center">
+                            <img th:src="${clientDetail.logo}" class="card-img-top" style="width: 75px"/>
+                            <h3 class="modal-title mt-4 mb-4 text-gray-800" th:text="${clientDetail.appName}"></h3>
+                        </div>
+                        <form th:action="${requestPath}" method="post" name="confirmationForm" class="mb-6 mt-4">
+                            <p>
+                                <a target="_blank" th:href="${clientDetail.siteDomain}"><strong
+                                        th:text="${clientDetail.appName}"></strong></a>
+                                申请获取以下权限：
+                            </p>
+                            <ul class="list-group scope-list">
+                                <li class="list-group-item p-2" th:each="scopeInfo : ${scopeInfos}">
+                                    <input th:value="${scopeInfo.code}" checked name="scopes" readonly="readonly"
+                                           type="checkbox" class="mr-2" style="margin-right: 5px;"
+                                           th:if="${scopeInfo.selected}"/>
+                                    <input th:value="${scopeInfo.code}" name="scopes" readonly="readonly"
+                                           type="checkbox" class="mr-2" style="margin-right: 5px;"
+                                           th:unless="${scopeInfo.selected}"/>
+                                    <label th:text="${scopeInfo.code} + ' - ' + ${scopeInfo.description}"
+                                           class="mb-0"></label>
+                                </li>
+                            </ul>
+                            <p class="help-block mt-4 mb-2">
+                                授权后表明你已同意 <a>服务协议</a>
+                            </p>
+                            <button type="submit" class="btn btn-primary pull-right btn-block mt-4 mb-2">
+                                同意授权
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

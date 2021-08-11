@@ -38,7 +38,7 @@ public class IdsClientDetailServiceImpl implements IdsClientDetailService {
                     .setClientSecret(OauthUtil.generateClientSecret())
                     .setAvailable(true);
         //默认允许获取所有信息
-        if (StringUtil.isEmpty(clientDetail.getScopes())) {
+        if (StringUtil.isEmpty(clientDetail.getScopes()) || clientDetail.getScopes().length() == 0) {
             clientDetail.setScopes(String.join(" ", IdsScopeProvider.getScopeCodes()));
         }
         //默认适用所有授权模式
