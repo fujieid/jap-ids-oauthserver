@@ -26,4 +26,3 @@ hs_err_pid*
 /.idea
 /target
 /src/test
-.gitignore
