@@ -17,7 +17,6 @@ spring:
     database: 0
     host: localhost
     port: 6379
-    timeout: 6000ms  # 连接超时时长（毫秒）
   # thymeleaf
   thymeleaf:
     cache: false
@@ -25,6 +24,8 @@ spring:
 # mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 # LOG
 logging:
   level:
