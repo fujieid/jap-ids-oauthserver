@@ -35,4 +35,5 @@ ids:
   oauth2:
     enable-redis-cache: false
     enable-customize-login-page: false
+    enable-customize-confirm-page: false
 
