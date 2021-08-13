@@ -144,12 +144,12 @@ logging:
     root: info
 ```
 
-其中可以通过`ids.oauth2.xxx`配置oauth授权服务(不配置则使用默认值)
+其中可以通过`japids.config:.xxx`配置oauth授权服务(不配置则使用默认值)
 
 ```yaml
 # oauth2.0服务配置
-ids:
-  oauth2:
+japids:
+  config:
     # 登录/确认外部的页面的host(默认为http://localhost:${server.port})
     host:
     # 发行者地址(默认为http://localhost:${server.port})

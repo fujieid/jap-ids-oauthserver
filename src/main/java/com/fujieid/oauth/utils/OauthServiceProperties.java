@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "ids.oauth2")
+@ConfigurationProperties(prefix = "japids.config")
 public class OauthServiceProperties {
     @Value("http://localhost:${server.port}")
     private String issuer;

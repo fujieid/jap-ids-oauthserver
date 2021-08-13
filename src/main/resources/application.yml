@@ -31,8 +31,8 @@ logging:
   level:
     root: info
 # oauth2.0服务配置
-ids:
-  oauth2:
+japids:
+  config:
     enable-redis-cache: false
     enable-customize-login-page: false
     enable-customize-confirm-page: false
