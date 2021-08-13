@@ -2,7 +2,6 @@ package com.fujieid.oauth.controller;
 
 import com.fujieid.jap.ids.endpoint.UserInfoEndpoint;
 import com.fujieid.jap.ids.model.IdsResponse;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/oauth")
 public class UserInfoController {
 
-    @PostMapping("/userinfo")
+    @RequestMapping("/userinfo")
     public IdsResponse<String, Object> userinfo(HttpServletRequest request) {
         return new UserInfoEndpoint().getCurrentUserInfo(request);
     }

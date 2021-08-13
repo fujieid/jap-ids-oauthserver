@@ -6,6 +6,19 @@
 </head>
 <body>
 <h3>API</h3>
+<fieldset disabled>
+    <legend>应用参数</legend>
+    <table>
+        <tr>
+            <td>clientId: <input id="clientIdSpan" type="text" value="zehtufcp4v3zs8nzs2ldp7hkd22y00t9"></td>
+            <td>clientSecret: <input id="clientSecretSpan" type="text" value="8dnf2r7diltoj1nx98iix0ydbayldq3c1wg00006"></td>
+            <td>redirectUri: <input id="redirectUriSpan" type="text" value="http://localhost:8888"></td>
+            <td>scopes: <input id="scopesSpan" type="text" value="read write openid profile email phone address"></td>
+            <td>grantTypes: <input id="grantTypesSpan" type="text" value="authorization_code"></td>
+            <td>responseTypes: <input id="responseTypesSpan" type="text" value="code"   ></td>
+        </tr>
+    </table>
+</fieldset>
 <fieldset id="callbackParam" disabled>
     <legend>回调参数</legend>
     <table>
@@ -21,13 +34,20 @@
     </table>
 </fieldset>
 <fieldset>
-    <legend>通用方法</legend>
+    <legend>授权码模式测试</legend>
     <ur>
         <li>
-            <input type="button" id="envTest_btn" value="环境测试">
+            <input type="button" id="envTest_btn" value="获取code">
         </li>
+        <br>
         <li>
             <input type="button" id="token_btn" value="获取token">
+        </li>
+        <br>
+        <li>
+            access_token=
+            <input type="text" id="access_token">
+            <input type="button" id="userinfo_btn" value="获取user信息">
         </li>
         <br>
         <li>
@@ -76,8 +96,14 @@
     })
 
     $("#token_btn").click(function () {
-        window.open(baseUrl + "/oauth/authorize?client_id=zehtufcp4v3zs8nzs2ldp7hkd22y00t9&response_type=code" +
-            "&redirect_uri=http://localhost:8888&scope=read write openid profile email phone address&state=12345")
+        var code = getQueryParams("code");
+        window.open(baseUrl + "/oauth/token?client_id=zehtufcp4v3zs8nzs2ldp7hkd22y00t9&client_secret=8dnf2r7diltoj1nx98iix0ydbayldq3c1wg00006" +
+            "&redirect_uri=http://localhost:8888&code=" + code + "&grant_type=authorization_code")
+    })
+
+    $("#userinfo_btn").click(function () {
+        var access_token = $("#access_token").val()
+        window.open(baseUrl + "/oauth/userinfo?access_token=" + access_token)
     })
 
     /**
