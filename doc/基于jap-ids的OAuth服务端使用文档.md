@@ -94,9 +94,9 @@ Maven >= 3.0
 http://localhost:8888
 ```
 
-3、打开浏览器进行测试，输入url地址http://localhost:8888看到下图, 点击测试环境, 跳转到登录界面输入用户名`user`和密码`12345`登录进行授权确认, 返回该界面获得code则说明配置成功
+3、打开浏览器进行测试，输入url地址http://localhost:8888看到下图进行测试, 点击获取code, 跳转到登录界面输入用户名`user`和密码`12345`登录进行授权确认, 返回该界面获得code, 再点击获取token, 若获取access_token等属性则系统测试成功
 
-<img src="https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210812001833974.png" alt="image-20210812001833974" style="zoom:50%;" />
+<img src="https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210813130633684.png" alt="image-20210813130633684" style="zoom:50%;" />
 
 4、对系统进行接口测试建议使用`Postman`等工具进行, 需要注意保持session一致
 
