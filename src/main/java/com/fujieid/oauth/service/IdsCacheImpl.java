@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 使用Redis作为缓存
@@ -25,7 +26,7 @@ public class IdsCacheImpl implements JapCache {
 
     @Override
     public void set(String s, Serializable serializable, long l) {
-        redisTemplate.opsForValue().set(s, serializable, l);
+        redisTemplate.opsForValue().set(s, serializable, l, TimeUnit.MILLISECONDS);
     }
 
     @Override
