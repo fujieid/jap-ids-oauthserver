@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author lapati5
  * @date 2021/8/4
@@ -22,6 +25,7 @@ public class OauthServiceProperties {
     private String jwksKeyId = "jap-jwk-keyid";
     private String loginPageUrl;
     private String confirmPageUrl;
+    private Map<String, String> extraScope;
     private boolean enableCustomizeLoginPage;
     private boolean enableCustomizeConfirmPage;
     private boolean enableRedisCache;

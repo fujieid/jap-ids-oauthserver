@@ -6,6 +6,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author lapati5
  * @date 2021/8/10
@@ -23,6 +26,7 @@ public class JapIdsConstUtil implements InitializingBean {
     public static String LOGIN_PAGE;
     public static String CONFIRM_PAGE;
     public static String JWKS_KEY_ID;
+    public static Map<String, String> EXTRA_SCOPE;
     public static JapCache JAP_CACHE;
     public static boolean IS_DYNAMIC;
     public static boolean IS_LOGIN_EXTERNAL;
@@ -55,5 +59,7 @@ public class JapIdsConstUtil implements InitializingBean {
         if (!IS_CONFIRM_EXTERNAL) {
             CONFIRM_HOST = "";
         }
+
+        EXTRA_SCOPE = oauthServiceProperties.getExtraScope();
     }
 }

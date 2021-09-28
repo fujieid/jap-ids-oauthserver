@@ -35,4 +35,5 @@ japids:
   config:
     enable-external-confirm: true
     enable-external-login: true
+    extra-scope: { dog: 'dog', cat: 'cat' }
 

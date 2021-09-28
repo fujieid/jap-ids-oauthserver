@@ -6,7 +6,9 @@ import com.fujieid.jap.ids.config.JwtConfig;
 import com.fujieid.jap.ids.context.IdsContext;
 import com.fujieid.jap.ids.filter.IdsAccessTokenFilter;
 import com.fujieid.jap.ids.filter.IdsUserStatusFilter;
+import com.fujieid.jap.ids.model.IdsScope;
 import com.fujieid.jap.ids.model.enums.TokenSigningAlg;
+import com.fujieid.jap.ids.provider.IdsScopeProvider;
 import com.fujieid.jap.ids.service.IdsClientDetailService;
 import com.fujieid.jap.ids.service.IdsIdentityService;
 import com.fujieid.jap.ids.service.IdsUserService;
@@ -18,6 +20,10 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.annotation.Id;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author lapati5
@@ -38,7 +44,6 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
         // 注册 JAP IDS 上下文
         String loginHost = JapIdsConstUtil.LOGIN_HOST;
         String confirmHost = JapIdsConstUtil.CONFIRM_HOST;
-        IdsConfig idsConfig = new IdsConfig();
         JapIds.registerContext(new IdsContext()
                 .setUserService(idsUserService)
                 .setClientDetailService(idsClientDetailService)
@@ -63,6 +68,12 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
                         )
                 )
         );
+        // 配置 ids 支持的 scope, 系统默认支持以下 scope： read、write、openid、email、phone
+        // 如果需要追加 scope，可以使用 addScope
+        Map<String, String> extraScopes = JapIdsConstUtil.EXTRA_SCOPE;
+        for (Map.Entry<String, String> scope : extraScopes.entrySet()) {
+            IdsScopeProvider.addScope(new IdsScope().setCode(scope.getKey()).setDescription(scope.getValue()));
+        }
     }
 
     /**
