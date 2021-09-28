@@ -33,7 +33,6 @@ logging:
 # oauth2.0服务配置
 japids:
   config:
-    enable-redis-cache: false
-    enable-customize-login-page: false
-    enable-customize-confirm-page: false
+    enable-external-confirm: true
+    enable-external-login: true
 

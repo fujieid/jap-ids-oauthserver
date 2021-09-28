@@ -16,7 +16,9 @@ public class OauthServiceProperties {
     @Value("http://localhost:${server.port}")
     private String issuer;
     @Value("http://localhost:${server.port}")
-    private String host;
+    private String loginHost;
+    @Value("http://localhost:${server.port}")
+    private String confirmHost;
     private String jwksKeyId = "jap-jwk-keyid";
     private String loginPageUrl;
     private String confirmPageUrl;
@@ -24,4 +26,6 @@ public class OauthServiceProperties {
     private boolean enableCustomizeConfirmPage;
     private boolean enableRedisCache;
     private boolean enableDynamicIssuer;
+    private boolean enableExternalLogin;
+    private boolean enableExternalConfirm;
 }
