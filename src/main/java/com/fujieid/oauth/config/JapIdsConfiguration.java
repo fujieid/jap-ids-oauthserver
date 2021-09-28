@@ -37,6 +37,7 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
     public void onApplicationEvent(ApplicationStartedEvent applicationStartedEvent) {
         // 注册 JAP IDS 上下文
         String host = JapIdsConstUtil.HOST;
+        IdsConfig idsConfig = new IdsConfig();
         JapIds.registerContext(new IdsContext()
                 .setUserService(idsUserService)
                 .setClientDetailService(idsClientDetailService)
@@ -49,7 +50,7 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
                             （ids.oauth2.*）,运行时动态获取属性
                          */
                         .setIssuer(JapIdsConstUtil.ISSUER)
-//                        .setEnableDynamicIssuer(true)
+                        .setEnableDynamicIssuer(JapIdsConstUtil.IS_DYNAMIC)
                         .setConfirmPageUrl(host + JapIdsConstUtil.CONFIRM_PAGE)
                         .setExternalConfirmPageUrl(true)
                         .setLoginPageUrl(host + JapIdsConstUtil.LOGIN_PAGE)

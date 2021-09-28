@@ -23,6 +23,7 @@ public class JapIdsConstUtil implements InitializingBean {
     public static String CONFIRM_PAGE;
     public static String JWKS_KEY_ID;
     public static JapCache JAP_CACHE;
+    public static boolean IS_DYNAMIC;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -41,5 +42,6 @@ public class JapIdsConstUtil implements InitializingBean {
 
         JWKS_KEY_ID = oauthServiceProperties.getJwksKeyId();
         JAP_CACHE = oauthServiceProperties.isEnableRedisCache() ? idsCache : null;
+        IS_DYNAMIC = oauthServiceProperties.isEnableDynamicIssuer();
     }
 }

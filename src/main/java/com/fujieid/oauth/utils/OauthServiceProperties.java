@@ -23,4 +23,5 @@ public class OauthServiceProperties {
     private boolean enableCustomizeLoginPage;
     private boolean enableCustomizeConfirmPage;
     private boolean enableRedisCache;
+    private boolean enableDynamicIssuer;
 }
