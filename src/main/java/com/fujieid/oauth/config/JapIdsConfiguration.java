@@ -20,9 +20,7 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.annotation.Id;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -72,7 +70,8 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
         // 如果需要追加 scope，可以使用 addScope
         Map<String, String> extraScopes = JapIdsConstUtil.EXTRA_SCOPE;
         for (Map.Entry<String, String> scope : extraScopes.entrySet()) {
-            IdsScopeProvider.addScope(new IdsScope().setCode(scope.getKey()).setDescription(scope.getValue()));
+            IdsScopeProvider.addScope(new IdsScope().
+                    setCode(scope.getKey()).setDescription(scope.getValue()));
         }
     }
 
