@@ -4,9 +4,9 @@
 
 ### 项目简介
 
-`oauth-service`是基于 jap-ids 开发一款上手即用的 OAuth 2.0 授权服务；支持授权码模式；授权码-PKCE模式；隐式授权模式；密码授权模式；客户端授权模式；OAuth应用创建等多种功能；
-
 > `jap-ids` 是基于 [RFC6749 (opens new window)](https://tools.ietf.org/html/rfc6749)、[RFC7636 (opens new window)](https://tools.ietf.org/html/rfc7636)、[RFC7033 (opens new window)](https://tools.ietf.org/html/rfc7033)等标准协议和 [OpenID Connect Core 1.0 (opens new window)](https://openid.net/specs/openid-connect-core-1_0.html)认证协议，实现的一款轻量级、业务解耦、开箱即用的新一代国产授权认证框架。
+
+`oauth-service`是基于 jap-ids 开发一款上手即用的 OAuth 2.0 授权服务；支持授权码模式；授权码-PKCE模式；隐式授权模式；密码授权模式；客户端授权模式；OAuth应用创建等多种功能；
 
 ### 主要特性
 
@@ -94,7 +94,7 @@ Maven >= 3.0
 http://localhost:8888
 ```
 
-3、打开浏览器进行测试，输入url地址http://localhost:8888看到下图进行测试, 点击获取code, 跳转到登录界面输入用户名`user`和密码`12345`登录进行授权确认, 返回该界面获得code, 再点击获取token, 若获取access_token等属性则系统测试成功
+3、打开浏览器进行测试，输入url地址http://localhost:8888看到下图, 点击测试环境, 跳转到登录界面输入用户名`user`和密码`12345`登录进行授权确认, 返回该界面获得code则说明配置成功
 
 <img src="https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210813130633684.png" alt="image-20210813130633684" style="zoom:50%;" />
 
@@ -104,9 +104,9 @@ http://localhost:8888
 
 ### 文件结构
 
-> `sql`目录下是数据库文件, `config`目录下存放JapIds以及Redis配置, `controller`提供不同授权模式接口以及服务发现等功能, `service`和`mapper`负责于持久层和Redis的交互访问, `templates`中为指自定义的登录和确认页面(需在配置文件中开启自定义后生效) , `application.yml`为总配置文件
+> `sql`目录下是数据库文件, `config`目录下存放JapIds以及Redis配置, `controller`提供不同授权模式接口以及服务发现等功能, `service`和`mapper`负责于持久层和Redis的交互访问, `templates`中为指自定义的登录和确认页面(需在配置文件中开启自定义后生效) , `application.yml`为总配置文件, `docker`目录存放Dockerfile文件用于项目容器化
 >
-> <img src="https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210812002430441.png" alt="image-20210812002430441" style="zoom:50%;" />
+> <img src="https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210929112904124.png" alt="image-20210929112904124" style="zoom:50%;" />
 
 ### 配置文件
 
@@ -138,35 +138,44 @@ spring:
 # mybatis配置
 mybatis:
   mapper-locations: classpath:mapper/**/*.xml
-# LOG
+# LOG日志
 logging:
   level:
     root: info
 ```
 
-其中可以通过`japids.config:.xxx`配置oauth授权服务(不配置则使用默认值)
+其中可以通过`ids.oauth2.xxx`配置oauth授权服务(不配置则使用默认值)
 
 ```yaml
 # oauth2.0服务配置
-japids:
-  config:
-    # 登录/确认外部的页面的host(默认为http://localhost:${server.port})
-    host:
-    # 发行者地址(默认为http://localhost:${server.port})
-    issuer:
-    # 是否开启redis缓存(默认使用本地缓存)
-    enable-redis-cache: 
-    # 开启使用自定义登录页面(默认不开启)
-    enable-customize-login-page: 
-    # 开启使用自定义确认页面(默认不开启)
-    enable-customize-confirm-page: 
-    # 自定义登录页面路径
-    login-page-url:
-    # 自定义确认页面路径
-    confirm-page-url:
-    # 配置JwksKeyId(默认为"jap-jwk-keyid")
-    jwks-key-id:
+ids:
+  oauth2:    
+    host: # 登录/确认外部的页面的host(默认为http://localhost:${server.port})   
+    
+    issuer: #  发行者地址(默认为http://localhost:${server.port})    
+    
+    enable-redis-cache: # 是否开启redis缓存(默认使用本地缓存)    
+    
+    enable-customize-login-page: # 开启使用服务器内部自定义登录页面(默认不开启)    
+    
+    enable-customize-confirm-page: # 开启使用服务器内部自定义确认页面(默认不开启)  
+    
+    enable-external-confirm: # 开启外部确认页面
+        
+    enable-external-login:  #开启外部登录页面
+    
+    enable-dynamic-issuer: # 开启动态issur使用服务端的端口链接
+    
+    login-page-url: # 自定义登录页面路径
+    
+    confirm-page-url: # 自定义确认页面路径
+    
+    jwks-key-id: # 配置JwksKeyId(默认为"jap-jwk-keyid")
+    
+    extra-scope: # 新增scope, 以map形式保存
 ```
+
+> 其中自定义页面通过命名为`login`, `index`和`confirm`等html文件放入`templates`文件夹中可以自行设定; 同时error页面也可以在`templates/error`中自定义设置 (**页面自定义需要在上述配置中开启后生效**)
 
 ### 核心代码
 
@@ -175,7 +184,7 @@ japids:
 ```java
 @Configuration
 public class JapIdsConfiguration implements ApplicationListener<ApplicationStartedEvent> {
-	//...
+	...
     @Override
     public void onApplicationEvent(ApplicationStartedEvent applicationStartedEvent) {
         // 注册 JAP IDS 上下文
@@ -203,8 +212,15 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
                         )
                 )
         );
+        // 配置 ids 支持的 scope, 系统默认支持以下 scope： read、write、openid、email、phone
+        // 如果需要追加 scope，可以使用 addScope
+        Map<String, String> extraScopes = JapIdsConstUtil.EXTRA_SCOPE;
+        for (Map.Entry<String, String> scope : extraScopes.entrySet()) {
+            IdsScopeProvider.addScope(new IdsScope()
+                    .setCode(scope.getKey()).setDescription(scope.getValue()));
+        }
     }
-    //...
+    ...
 }
 ```
 
@@ -215,22 +231,29 @@ public class JapIdsConfiguration implements ApplicationListener<ApplicationStart
 ```java
 @Component
 public class JapIdsConstUtil implements InitializingBean {
-    @Autowired
+     @Autowired
     private OauthServiceProperties oauthServiceProperties;
     @Autowired
     private IdsCacheImpl idsCache;
 
     public static String ISSUER;
-    public static String HOST;
+    public static String LOGIN_HOST;
+    public static String CONFIRM_HOST;
     public static String LOGIN_PAGE;
     public static String CONFIRM_PAGE;
     public static String JWKS_KEY_ID;
+    public static Map<String, String> EXTRA_SCOPE;
     public static JapCache JAP_CACHE;
+    public static boolean IS_DYNAMIC;
+    public static boolean IS_LOGIN_EXTERNAL;
+    public static boolean IS_CONFIRM_EXTERNAL;
 
     @Override
     public void afterPropertiesSet() throws Exception {
+        //bean完成容器注入后进行
         ISSUER = oauthServiceProperties.getIssuer();
-        HOST = oauthServiceProperties.getHost();
+        LOGIN_HOST = oauthServiceProperties.getLoginHost();
+        CONFIRM_HOST = oauthServiceProperties.getConfirmHost();
 
         LOGIN_PAGE = oauthServiceProperties.getLoginPageUrl();
         if (LOGIN_PAGE == null || LOGIN_PAGE.length() == 0) {
@@ -243,6 +266,17 @@ public class JapIdsConstUtil implements InitializingBean {
 
         JWKS_KEY_ID = oauthServiceProperties.getJwksKeyId();
         JAP_CACHE = oauthServiceProperties.isEnableRedisCache() ? idsCache : null;
+        IS_DYNAMIC = oauthServiceProperties.isEnableDynamicIssuer();
+        IS_LOGIN_EXTERNAL = oauthServiceProperties.isEnableExternalLogin();
+        if (!IS_LOGIN_EXTERNAL) {
+            LOGIN_HOST = "";
+        }
+        IS_CONFIRM_EXTERNAL = oauthServiceProperties.isEnableExternalConfirm();
+        if (!IS_CONFIRM_EXTERNAL) {
+            CONFIRM_HOST = "";
+        }
+
+        EXTRA_SCOPE = oauthServiceProperties.getExtraScope();
     }
 }
 ```
@@ -337,7 +371,7 @@ public class IdsCacheImpl implements JapCache {
 
 ### 相关接口
 
-> OAuth 服务端为客户端提供以下几个接口(对应controller)：
+> OAuth Server为客户端提供以下几个接口完成授权服务(对应Controller)：
 
 **DiscoveryController**
 
@@ -378,6 +412,12 @@ public class IdsCacheImpl implements JapCache {
 - `DELETE`根据id删除client信息：http://{host}:{port}/oauth/client/removeById/{id}
 - `DELETE`根据clientId删除client信息：http://{host}:{port}/oauth/client//removeByClientId/{clientId}
 
+**AuthErrorController / AuthExceptionHandler**
+
+- 处理Web错误页面以及统一异常处理
+
+### 授权码模式演示
+
 > 使用客户端访问进行授权认证接口及参数(`以授权码模式为例`)
 
 - `GET`获取授权：http://{host}:{port}/oauth/authorize(自动授权需要在URL上添加`autoapprove=true`参数, 同时保证客户端自动授权的开启)
@@ -406,7 +446,159 @@ public class IdsCacheImpl implements JapCache {
 
   <img src="https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210812001434255.png" alt="image-20210812001434255" style="zoom:50%;" />
 
+## 容器化部署
 
+### 容器化简介
 
+`容器技术（Linux Container，LXC）`是一种内核轻量级的操作系统层虚拟化技术。容器提供了将应用程序的代码、运行时、系统工具、系统库和配置打包到一个实例中的标准方法。一个宿主机上的所有容器共享一个内核（操作系统）。容器化就是把应用程序打包成容器运行，是应用程序级别的虚拟化。容器具有以下特点：
 
+- 极其轻量。容器仅打包应用程序、配置和依赖库，所占存储少，一般为MB级别。
+- 秒级启动。容器启动时间为秒级，虚拟机为分钟级，可大大减少开发、测试、部署的时间。
+- 易于移植。一次构建、随处部署，完全离线的环境也是如此。
+- 接近原生。在容器内运行的应用程序，性能接近原生，远高于虚拟机内运行的程序。
 
+### OAuth Server容器化
+
+> 我们提供用户可以借助docker完成服务端容器化部署的方法, 使得基于jap-ids的oauth server更加容易让别人体验
+
+在该项目`src/main/docker`目录下编写Dockerfile生成server项目镜像
+
+```dockerfile
+FROM java:8
+# 指定维护者名字
+MAINTAINER louis <louisliu2048@gmail.com>
+# VOLUME 指定了临时文件目录为/tmp。
+# 其效果是在主机 /var/lib/docker 目录下创建了一个临时文件，并链接到容器的/tmp
+VOLUME /tmp
+# 将jar包添加到容器中并更名为app.jar
+ADD oauth-service-0.0.1-SNAPSHOT.jar app.jar
+# 声明服务运行在8888端口
+EXPOSE 8888
+# 运行jar包
+ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+```
+
+在`pom.xml`文件中提供maven的docker插件配置, 调用`docker:build`可以将服务打包生成的jar包直接生成镜像发送至目标服务器上(需要先在远程/本地docker服务器上打开2375端口, 才可以在网络上对docker进行操作)
+
+```xml
+<!-- Docker -->
+<plugin>
+    <groupId>com.spotify</groupId>
+    <artifactId>docker-maven-plugin</artifactId>
+    <version>1.0.0</version>
+    <!-- 将插件绑定在某个phase执行 -->
+    <executions>
+        <execution>
+            <id>build-image</id>
+            <!-- 用户只需执行mvn package ，就会自动执行mvn docker:build -->
+            <phase>package</phase>
+            <goals>
+                <goal>build</goal>
+            </goals>
+        </execution>
+    </executions>
+    <configuration>
+        <!-- 指定生成的镜像名 -->
+        <imageName>${docker.image.prefix}/${project.artifactId}:${project.version}</imageName>
+        <!-- 指定标签 -->
+        <imageTags>
+            <imageTag>${project.version}</imageTag>
+        </imageTags>
+        <!-- 指定 Dockerfile 路径 -->
+        <dockerDirectory>src/main/docker</dockerDirectory>
+        <!-- 指定远程 docker api地址 -->
+        <dockerHost>http://${ip.address}:2375</dockerHost>
+        <resources>
+            <resource>
+                <targetPath>/</targetPath>
+                <!-- jar包所在的路径此处配置的对应target目录 -->
+                <directory>${project.build.directory}</directory>
+                <!-- 需要包含的jar包,这里对应的是Dockerfile中添加的文件名　-->
+                <include>${project.build.finalName}.jar</include>
+            </resource>
+        </resources>
+    </configuration>
+</plugin>
+```
+
+其中`${docker.image.prefix}`在下方`properties`中指定
+
+```xml
+<properties>
+    <java.version>1.8</java.version>
+    <docker.image.prefix>ids-server</docker.image.prefix>
+</properties>
+```
+
+之后只需通过`mvn package`对项目进行打包, 通过插件配置会自动生成镜像发送到我们配置的服务器上
+
+```
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ---------------------< com.fujieid:oauth-service >----------------------
+[INFO] Building oauth-service 0.0.1-SNAPSHOT
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+...
+[INFO] --- maven-compiler-plugin:3.8.1:compile (default-compile) @ oauth-service ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 24 source files to 
+...
+INFO] Building image ids-server/oauth-service:0.0.1-SNAPSHOT
+Step 1/6 : FROM java:8
+
+ ---> d23bdf5b1b1b
+Step 2/6 : MAINTAINER louis <louisliu2048@gmail.com>
+
+ ---> Running in 9f3426b07a70
+Removing intermediate container 9f3426b07a70
+ ---> e31f38ae3c23
+Step 3/6 : VOLUME /tmp
+
+ ---> Running in a0b1af0f2258
+Removing intermediate container a0b1af0f2258
+ ---> ba727fe360d9
+Step 4/6 : ADD oauth-service-0.0.1-SNAPSHOT.jar app.jar
+
+ ---> 1c6585e790e7
+Step 5/6 : EXPOSE 8888
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  54.991 s
+[INFO] Finished at: 2021-09-29T09:15:12+08:00
+[INFO] ------------------------------------------------------------------------
+```
+
+![image-20210929094755386](https://cdn.jsdelivr.net/gh/Lapati5/PictureBed@main/img/image-20210929094755386.png)
+
+> Redis服务部署
+
+oauth-server镜像生成后, 通过docker镜像redis部署, 执行命令
+
+```bash
+docker run -d --name oauth-redis -p 6379:6379 redis --requirepass 'password'
+```
+
+如果要开启redis的持久化则加上 –appendonly yes 完成命令如下：
+
+```bash
+docker run -d --name oauth-redis -p 6379:6379 redis --requirepass 'password' --appendonly yes
+```
+
+如果不加–appendonly yes则默认开启redis的RDB模式，如果加了则开启AOF模式。 redis服务测试：
+
+```bash
+docker exec -it 容器id redis-cli -h 127.0.0.1 -p 6379
+```
+
+进入redis后验证密码的命令为： auth password（自己设置的密码）
+
+> 项目部署
+
+```
+docker run -it --net=host --name oauth-service -p 8888:8888  ${上面生成的容器名}
+```
+
+等待docker容器启动之后, 就可以通过`IP` + `8888`端口对远程服务器中docker容器的ids授权服务器进行访问了, 部署的redis用于存放token以及code。
